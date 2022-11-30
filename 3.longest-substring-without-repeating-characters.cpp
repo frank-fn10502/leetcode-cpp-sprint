@@ -15,18 +15,20 @@ public:
     {
         int result = 0;
         map<char, char> exists;
-        for (int i = 0; i < s.length(); i++)
+        int l = 0, r = 0;
+        for (int r = 0; r < s.length() && l < s.length();)
         {
-            for (int j = i; j < s.length(); j++)
+            auto c = s[r];
+            if (exists.find(c) != exists.end())
             {
-                auto c = s[j];
-                if (exists.find(c) != exists.end())
-                {
-                    result = max(result, (int)exists.size());
-                    exists.clear();
-                    break;
-                }
+                exists.erase(s[l]); //移除最左邊
+                l++;
+            }
+            else
+            {
                 exists[c] = 1;
+                result = max(result, r - l + 1);
+                r++;
             }
         }
         return max(result, (int)exists.size());
