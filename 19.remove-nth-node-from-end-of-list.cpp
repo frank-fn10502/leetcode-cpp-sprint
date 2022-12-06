@@ -31,25 +31,18 @@ class Solution
 public:
     ListNode *removeNthFromEnd(ListNode *head, int n)
     {
-        int count = 1;
-        ListNode *current = head;
-        while (current->next != NULL)
+        int size = 0;
+        ListNode *left = head, *right = head;
+        while (right != NULL)
         {
-            current = current->next;
-            count++;
+            right = right->next;
+            if (size > n)
+                left = left->next;
+            size++;
         }
-        ListNode *preNode = NULL;
-        current = head;
-
-        while (count > n)
-        {
-            preNode = current;
-            current = current->next;
-            count--;
-        }
-        if (preNode == NULL)
-            return current->next;
-        preNode->next = current->next;
+        if (n == size)
+            return head->next;
+        left->next = left->next->next;
         return head;
     }
 };
